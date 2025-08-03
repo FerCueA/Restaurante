@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurante - Menú Digital</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,41 +13,98 @@
         }
 
         body {
-            font-family: 'Georgia', serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            background: #f8f9fa;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background: white;
             min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 30px rgba(0,0,0,0.05);
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
-            padding: 30px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 0;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
             color: white;
-            border-radius: 15px;
+            border-radius: 20px;
             margin: -20px -20px 40px -20px;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 2px;
         }
 
         .header p {
-            font-size: 1.2em;
+            font-size: 1.1em;
             opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+
+        .filter-title {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn, .category-btn {
+            padding: 8px 16px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .filter-btn:hover, .category-btn:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .filter-btn.active, .category-btn.active {
+            background: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+
+        .allergen-filters {
+            margin-bottom: 15px;
+        }
+
+        .category-filters {
+            border-top: 1px solid #e9ecef;
+            padding-top: 15px;
         }
 
         .menu-section {
@@ -54,43 +112,57 @@
         }
 
         .section-title {
-            font-size: 2em;
-            color: #667eea;
+            font-size: 2.2em;
+            color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
             position: relative;
+            font-weight: 300;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -3px;
+            bottom: -2px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background: #764ba2;
+            width: 60px;
+            height: 2px;
+            background: #e74c3c;
         }
 
         .menu-grid {
             display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 25px;
         }
 
         .menu-item {
-            background: #fff;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-left: 5px solid #667eea;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
         }
 
         .menu-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .menu-item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .menu-item-content {
+            padding: 25px;
         }
 
         .item-header {
@@ -102,40 +174,145 @@
 
         .item-name {
             font-size: 1.4em;
-            font-weight: bold;
-            color: #333;
+            font-weight: 600;
+            color: #2c3e50;
             flex: 1;
+            margin-right: 15px;
         }
 
         .item-price {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #667eea;
-            margin-left: 15px;
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #e74c3c;
+            white-space: nowrap;
         }
 
         .item-description {
-            color: #666;
-            font-style: italic;
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .allergen-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .allergen-tag {
+            padding: 4px 10px;
+            background: #fff3cd;
+            color: #856404;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            border: 1px solid #ffeaa7;
+        }
+
+        .allergen-tag.gluten { background: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+        .allergen-tag.dairy { background: #d4edda; color: #155724; border-color: #c3e6cb; }
+        .allergen-tag.nuts { background: #ffeaa7; color: #856404; border-color: #fdd835; }
+        .allergen-tag.seafood { background: #cce7ff; color: #004085; border-color: #a6d3ff; }
+
+        .expand-button {
+            background: none;
+            border: none;
+            color: #3498db;
+            font-size: 0.9em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .expand-button:hover {
+            color: #2c3e50;
+        }
+
+        .expand-button i {
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item.expanded .expand-button i {
+            transform: rotate(180deg);
+        }
+
+        .item-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            border-top: 1px solid #e9ecef;
+            margin-top: 15px;
+        }
+
+        .menu-item.expanded .item-details {
+            max-height: 500px;
+            padding-top: 15px;
+        }
+
+        .ingredients-section, .nutrition-section {
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .ingredients-list {
+            color: #6c757d;
             line-height: 1.5;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .nutrition-item {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .nutrition-value {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .nutrition-label {
+            font-size: 0.8em;
+            color: #6c757d;
+            margin-top: 2px;
         }
 
         .footer {
             text-align: center;
             margin-top: 50px;
-            padding: 30px 0;
-            background: #f8f9fa;
-            border-radius: 10px;
-            color: #666;
+            padding: 40px 0;
+            background: #2c3e50;
+            border-radius: 15px;
+            color: white;
         }
 
         .footer h3 {
-            color: #667eea;
-            margin-bottom: 15px;
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 300;
         }
 
         .contact-info {
-            margin: 10px 0;
+            margin: 15px 0;
+            color: #bdc3c7;
         }
 
         /* Mobile responsiveness */
@@ -148,11 +325,11 @@
 
             .header {
                 margin: -15px -15px 30px -15px;
-                padding: 20px;
+                padding: 30px 20px;
             }
 
             .header h1 {
-                font-size: 2em;
+                font-size: 2.2em;
             }
 
             .header p {
@@ -160,11 +337,15 @@
             }
 
             .section-title {
-                font-size: 1.6em;
-                margin-bottom: 20px;
+                font-size: 1.8em;
+                margin-bottom: 25px;
             }
 
-            .menu-item {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-item-content {
                 padding: 20px;
             }
 
@@ -175,29 +356,60 @@
 
             .item-price {
                 margin-left: 0;
-                margin-top: 5px;
+                margin-top: 8px;
             }
 
             .item-name {
-                font-size: 1.2em;
+                font-size: 1.3em;
+                margin-right: 0;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .nutrition-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.8em;
+                font-size: 1.9em;
             }
 
             .section-title {
-                font-size: 1.4em;
+                font-size: 1.6em;
             }
 
-            .menu-item {
+            .menu-item-content {
                 padding: 15px;
+            }
+
+            .filter-controls {
+                padding: 20px;
+            }
+
+            .nutrition-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Print styles for potential QR code printing */
+        /* Hidden items animation */
+        .menu-item.hidden {
+            display: none;
+        }
+
+        .menu-item.fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Print styles */
         @media print {
             body {
                 background: white;
@@ -206,6 +418,10 @@
             .container {
                 box-shadow: none;
                 max-width: none;
+            }
+
+            .filter-controls {
+                display: none;
             }
         }
     </style>
@@ -217,205 +433,58 @@
             <p>Menú Digital - Cocina Tradicional & Moderna</p>
         </header>
 
-        <section class="menu-section">
-            <h2 class="section-title">🥗 Entrantes</h2>
-            <div class="menu-grid">
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Bruschetta Italiana</div>
-                        <div class="item-price">€8.50</div>
-                    </div>
-                    <div class="item-description">
-                        Pan tostado con tomate fresco, albahaca, ajo y aceite de oliva virgen extra. Servido con queso mozzarella de búfala.
-                    </div>
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+            <div class="allergen-filters">
+                <div class="filter-title">
+                    <i class="fas fa-filter"></i> Filtrar por Alérgenos
                 </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Croquetas de Jamón Ibérico</div>
-                        <div class="item-price">€9.00</div>
-                    </div>
-                    <div class="item-description">
-                        Croquetas caseras elaboradas con jamón ibérico de bellota y bechamel cremosa. Servidas con alioli casero.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Tabla de Quesos Artesanales</div>
-                        <div class="item-price">€12.00</div>
-                    </div>
-                    <div class="item-description">
-                        Selección de quesos locales acompañados con frutos secos, mermelada de higos y pan artesanal.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Gambas al Ajillo</div>
-                        <div class="item-price">€11.50</div>
-                    </div>
-                    <div class="item-description">
-                        Gambas frescas salteadas con ajo, guindilla y perejil en aceite de oliva. Servidas en cazuela de barro.
-                    </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-allergen="all">
+                        <i class="fas fa-utensils"></i> Todos los platos
+                    </button>
+                    <button class="filter-btn" data-allergen="gluten">
+                        <i class="fas fa-wheat-awn"></i> Sin Gluten
+                    </button>
+                    <button class="filter-btn" data-allergen="dairy">
+                        <i class="fas fa-cheese"></i> Sin Lácteos
+                    </button>
+                    <button class="filter-btn" data-allergen="nuts">
+                        <i class="fas fa-seedling"></i> Sin Frutos Secos
+                    </button>
+                    <button class="filter-btn" data-allergen="seafood">
+                        <i class="fas fa-fish"></i> Sin Mariscos
+                    </button>
                 </div>
             </div>
-        </section>
-
-        <section class="menu-section">
-            <h2 class="section-title">🍖 Platos Principales</h2>
-            <div class="menu-grid">
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Paella Valenciana</div>
-                        <div class="item-price">€18.00</div>
-                    </div>
-                    <div class="item-description">
-                        Paella tradicional con pollo, conejo, judías verdes, garrofón y azafrán. Cocinada en fuego de leña. Mínimo 2 personas.
-                    </div>
+            
+            <div class="category-filters">
+                <div class="filter-title">
+                    <i class="fas fa-list"></i> Filtrar por Categoría
                 </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Solomillo de Ternera</div>
-                        <div class="item-price">€24.00</div>
-                    </div>
-                    <div class="item-description">
-                        Solomillo a la plancha con salsa de vino tinto, acompañado de patatas confitadas y verduras de temporada.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Lubina a la Sal</div>
-                        <div class="item-price">€22.00</div>
-                    </div>
-                    <div class="item-description">
-                        Lubina fresca cocinada en costra de sal marina, servida con verduras al vapor y salsa verde casera.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Risotto de Setas</div>
-                        <div class="item-price">€16.50</div>
-                    </div>
-                    <div class="item-description">
-                        Risotto cremoso con setas de temporada, parmesano DOP y trufa negra. Opción vegetariana disponible.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Cordero Lechal Asado</div>
-                        <div class="item-price">€26.00</div>
-                    </div>
-                    <div class="item-description">
-                        Cordero lechal asado al horno tradicional con romero y ajo, acompañado de patatas panadera y ensalada.
-                    </div>
+                <div class="filter-buttons">
+                    <button class="category-btn active" data-category="all">
+                        <i class="fas fa-utensils"></i> Todas las categorías
+                    </button>
+                    <button class="category-btn" data-category="starters">
+                        <i class="fas fa-leaf"></i> Entrantes
+                    </button>
+                    <button class="category-btn" data-category="mains">
+                        <i class="fas fa-drumstick-bite"></i> Principales
+                    </button>
+                    <button class="category-btn" data-category="desserts">
+                        <i class="fas fa-ice-cream"></i> Postres
+                    </button>
+                    <button class="category-btn" data-category="drinks">
+                        <i class="fas fa-wine-glass"></i> Bebidas
+                    </button>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="menu-section">
-            <h2 class="section-title">🍰 Postres</h2>
-            <div class="menu-grid">
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Tiramisú Casero</div>
-                        <div class="item-price">€6.50</div>
-                    </div>
-                    <div class="item-description">
-                        Tiramisú tradicional italiano con café expreso, mascarpone y cacao en polvo. Elaborado diariamente en casa.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Tarta de Chocolate Negro</div>
-                        <div class="item-price">€7.00</div>
-                    </div>
-                    <div class="item-description">
-                        Tarta húmeda de chocolate 70% cacao con crema inglesa y frutos rojos frescos de temporada.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Flan de Huevo</div>
-                        <div class="item-price">€5.50</div>
-                    </div>
-                    <div class="item-description">
-                        Flan casero elaborado con huevos frescos y caramelo líquido, servido con nata montada y canela.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Helado Artesanal</div>
-                        <div class="item-price">€4.50</div>
-                    </div>
-                    <div class="item-description">
-                        Selección de helados artesanales: vainilla, chocolate, fresa o limón. Servido con barquillo casero.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="menu-section">
-            <h2 class="section-title">🥤 Bebidas</h2>
-            <div class="menu-grid">
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Vino Tinto Reserva</div>
-                        <div class="item-price">€18.00</div>
-                    </div>
-                    <div class="item-description">
-                        Botella de vino tinto Tempranillo D.O. Ribera del Duero, crianza de 12 meses en barrica de roble.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Vino Blanco Albariño</div>
-                        <div class="item-price">€16.00</div>
-                    </div>
-                    <div class="item-description">
-                        Botella de vino blanco D.O. Rías Baixas, fresco y afrutado, ideal para acompañar pescados y mariscos.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Sangría de la Casa</div>
-                        <div class="item-price">€12.00</div>
-                    </div>
-                    <div class="item-description">
-                        Sangría tradicional con vino tinto, frutas frescas y especias secretas de la casa. Jarra para 2 personas.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Agua Mineral / Refrescos</div>
-                        <div class="item-price">€2.50</div>
-                    </div>
-                    <div class="item-description">
-                        Agua mineral natural con o sin gas. Refrescos variados: Coca-Cola, Fanta, Sprite, zumos naturales.
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <div class="item-header">
-                        <div class="item-name">Café y Infusiones</div>
-                        <div class="item-price">€2.00</div>
-                    </div>
-                    <div class="item-description">
-                        Café expreso, cortado, con leche o americano. Infusiones variadas: manzanilla, poleo menta, té verde.
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div id="menu-container">
+            <!-- Menu sections will be generated by JavaScript -->
+        </div>
 
         <footer class="footer">
             <h3>📍 Información del Restaurante</h3>
@@ -430,5 +499,481 @@
             </p>
         </footer>
     </div>
+
+    <script>
+        // Menu data with complete information
+        const menuData = {
+            starters: {
+                title: "🥗 Entrantes",
+                items: [
+                    {
+                        name: "Bruschetta Italiana",
+                        price: "€8.50",
+                        description: "Pan tostado con tomate fresco, albahaca, ajo y aceite de oliva virgen extra. Servido con queso mozzarella de búfala.",
+                        image: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=300&fit=crop",
+                        ingredients: "Pan artesanal, tomates cherry, albahaca fresca, ajo, aceite de oliva virgen extra, mozzarella de búfala, sal marina",
+                        allergens: ["gluten", "dairy"],
+                        nutrition: {
+                            calories: "245",
+                            proteins: "12g",
+                            carbs: "28g",
+                            fats: "11g",
+                            fiber: "3g"
+                        }
+                    },
+                    {
+                        name: "Croquetas de Jamón Ibérico",
+                        price: "€9.00",
+                        description: "Croquetas caseras elaboradas con jamón ibérico de bellota y bechamel cremosa. Servidas con alioli casero.",
+                        image: "https://images.unsplash.com/photo-1599043513900-ed6fe01d3833?w=400&h=300&fit=crop",
+                        ingredients: "Jamón ibérico de bellota, leche, harina, mantequilla, huevo, pan rallado, aceite de oliva, ajo, limón",
+                        allergens: ["gluten", "dairy"],
+                        nutrition: {
+                            calories: "320",
+                            proteins: "18g",
+                            carbs: "22g",
+                            fats: "19g",
+                            fiber: "1g"
+                        }
+                    },
+                    {
+                        name: "Tabla de Quesos Artesanales",
+                        price: "€12.00",
+                        description: "Selección de quesos locales acompañados con frutos secos, mermelada de higos y pan artesanal.",
+                        image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&h=300&fit=crop",
+                        ingredients: "Queso manchego, queso cabrales, queso de cabra, nueces, almendras, mermelada de higos, pan artesanal",
+                        allergens: ["dairy", "nuts", "gluten"],
+                        nutrition: {
+                            calories: "485",
+                            proteins: "24g",
+                            carbs: "35g",
+                            fats: "28g",
+                            fiber: "4g"
+                        }
+                    },
+                    {
+                        name: "Gambas al Ajillo",
+                        price: "€11.50",
+                        description: "Gambas frescas salteadas con ajo, guindilla y perejil en aceite de oliva. Servidas en cazuela de barro.",
+                        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
+                        ingredients: "Gambas frescas, ajo, guindilla, perejil, aceite de oliva virgen extra, sal marina",
+                        allergens: ["seafood"],
+                        nutrition: {
+                            calories: "195",
+                            proteins: "22g",
+                            carbs: "3g",
+                            fats: "10g",
+                            fiber: "0g"
+                        }
+                    }
+                ]
+            },
+            mains: {
+                title: "🍖 Platos Principales",
+                items: [
+                    {
+                        name: "Paella Valenciana",
+                        price: "€18.00",
+                        description: "Paella tradicional con pollo, conejo, judías verdes, garrofón y azafrán. Cocinada en fuego de leña. Mínimo 2 personas.",
+                        image: "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=400&h=300&fit=crop",
+                        ingredients: "Arroz bomba, pollo, conejo, judías verdes, garrofón, tomate, azafrán, aceite de oliva, caldo de pollo",
+                        allergens: [],
+                        nutrition: {
+                            calories: "620",
+                            proteins: "35g",
+                            carbs: "75g",
+                            fats: "18g",
+                            fiber: "5g"
+                        }
+                    },
+                    {
+                        name: "Solomillo de Ternera",
+                        price: "€24.00",
+                        description: "Solomillo a la plancha con salsa de vino tinto, acompañado de patatas confitadas y verduras de temporada.",
+                        image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop",
+                        ingredients: "Solomillo de ternera, vino tinto, mantequilla, patatas, zanahorias, judías verdes, cebolla, hierbas aromáticas",
+                        allergens: ["dairy"],
+                        nutrition: {
+                            calories: "580",
+                            proteins: "42g",
+                            carbs: "28g",
+                            fats: "32g",
+                            fiber: "4g"
+                        }
+                    },
+                    {
+                        name: "Lubina a la Sal",
+                        price: "€22.00",
+                        description: "Lubina fresca cocinada en costra de sal marina, servida con verduras al vapor y salsa verde casera.",
+                        image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop",
+                        ingredients: "Lubina fresca, sal marina gruesa, claras de huevo, brócoli, zanahoria, perejil, aceite de oliva, limón",
+                        allergens: ["seafood"],
+                        nutrition: {
+                            calories: "425",
+                            proteins: "38g",
+                            carbs: "12g",
+                            fats: "25g",
+                            fiber: "3g"
+                        }
+                    },
+                    {
+                        name: "Risotto de Setas",
+                        price: "€16.50",
+                        description: "Risotto cremoso con setas de temporada, parmesano DOP y trufa negra. Opción vegetariana disponible.",
+                        image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&h=300&fit=crop",
+                        ingredients: "Arroz arborio, setas variadas, caldo vegetal, parmesano, mantequilla, vino blanco, cebolla, trufa negra",
+                        allergens: ["dairy"],
+                        nutrition: {
+                            calories: "465",
+                            proteins: "16g",
+                            carbs: "58g",
+                            fats: "18g",
+                            fiber: "4g"
+                        }
+                    },
+                    {
+                        name: "Cordero Lechal Asado",
+                        price: "€26.00",
+                        description: "Cordero lechal asado al horno tradicional con romero y ajo, acompañado de patatas panadera y ensalada.",
+                        image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
+                        ingredients: "Cordero lechal, romero, ajo, patatas, cebolla, aceite de oliva, vino blanco, lechuga, tomate",
+                        allergens: [],
+                        nutrition: {
+                            calories: "695",
+                            proteins: "48g",
+                            carbs: "32g",
+                            fats: "38g",
+                            fiber: "5g"
+                        }
+                    }
+                ]
+            },
+            desserts: {
+                title: "🍰 Postres",
+                items: [
+                    {
+                        name: "Tiramisú Casero",
+                        price: "€6.50",
+                        description: "Tiramisú tradicional italiano con café expreso, mascarpone y cacao en polvo. Elaborado diariamente en casa.",
+                        image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=300&fit=crop",
+                        ingredients: "Mascarpone, huevos, azúcar, café expreso, bizcochos de soletilla, cacao en polvo, marsala",
+                        allergens: ["dairy", "gluten"],
+                        nutrition: {
+                            calories: "385",
+                            proteins: "8g",
+                            carbs: "32g",
+                            fats: "25g",
+                            fiber: "1g"
+                        }
+                    },
+                    {
+                        name: "Tarta de Chocolate Negro",
+                        price: "€7.00",
+                        description: "Tarta húmeda de chocolate 70% cacao con crema inglesa y frutos rojos frescos de temporada.",
+                        image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop",
+                        ingredients: "Chocolate negro 70%, mantequilla, huevos, azúcar, harina, nata, fresas, frambuesas, arándanos",
+                        allergens: ["dairy", "gluten"],
+                        nutrition: {
+                            calories: "420",
+                            proteins: "9g",
+                            carbs: "38g",
+                            fats: "26g",
+                            fiber: "6g"
+                        }
+                    },
+                    {
+                        name: "Flan de Huevo",
+                        price: "€5.50",
+                        description: "Flan casero elaborado con huevos frescos y caramelo líquido, servido con nata montada y canela.",
+                        image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&h=300&fit=crop",
+                        ingredients: "Huevos frescos, leche entera, azúcar, vainilla, nata montada, canela en polvo",
+                        allergens: ["dairy"],
+                        nutrition: {
+                            calories: "295",
+                            proteins: "12g",
+                            carbs: "35g",
+                            fats: "12g",
+                            fiber: "0g"
+                        }
+                    },
+                    {
+                        name: "Helado Artesanal",
+                        price: "€4.50",
+                        description: "Selección de helados artesanales: vainilla, chocolate, fresa o limón. Servido con barquillo casero.",
+                        image: "https://images.unsplash.com/photo-1488900128323-21503983a07e?w=400&h=300&fit=crop",
+                        ingredients: "Leche, nata, azúcar, huevos, saborizantes naturales (vainilla, chocolate, fresa, limón), harina para barquillo",
+                        allergens: ["dairy", "gluten"],
+                        nutrition: {
+                            calories: "225",
+                            proteins: "5g",
+                            carbs: "28g",
+                            fats: "11g",
+                            fiber: "1g"
+                        }
+                    }
+                ]
+            },
+            drinks: {
+                title: "🥤 Bebidas",
+                items: [
+                    {
+                        name: "Vino Tinto Reserva",
+                        price: "€18.00",
+                        description: "Botella de vino tinto Tempranillo D.O. Ribera del Duero, crianza de 12 meses en barrica de roble.",
+                        image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=400&h=300&fit=crop",
+                        ingredients: "Uva Tempranillo 100%, sulfitos",
+                        allergens: [],
+                        nutrition: {
+                            calories: "125",
+                            proteins: "0g",
+                            carbs: "4g",
+                            fats: "0g",
+                            fiber: "0g"
+                        }
+                    },
+                    {
+                        name: "Vino Blanco Albariño",
+                        price: "€16.00",
+                        description: "Botella de vino blanco D.O. Rías Baixas, fresco y afrutado, ideal para acompañar pescados y mariscos.",
+                        image: "https://images.unsplash.com/photo-1547595628-c61a29f496f0?w=400&h=300&fit=crop",
+                        ingredients: "Uva Albariño 100%, sulfitos",
+                        allergens: [],
+                        nutrition: {
+                            calories: "120",
+                            proteins: "0g",
+                            carbs: "3g",
+                            fats: "0g",
+                            fiber: "0g"
+                        }
+                    },
+                    {
+                        name: "Sangría de la Casa",
+                        price: "€12.00",
+                        description: "Sangría tradicional con vino tinto, frutas frescas y especias secretas de la casa. Jarra para 2 personas.",
+                        image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop",
+                        ingredients: "Vino tinto, frutas frescas (naranja, limón, manzana), azúcar, canela, brandy",
+                        allergens: [],
+                        nutrition: {
+                            calories: "150",
+                            proteins: "0g",
+                            carbs: "15g",
+                            fats: "0g",
+                            fiber: "1g"
+                        }
+                    },
+                    {
+                        name: "Agua Mineral / Refrescos",
+                        price: "€2.50",
+                        description: "Agua mineral natural con o sin gas. Refrescos variados: Coca-Cola, Fanta, Sprite, zumos naturales.",
+                        image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?w=400&h=300&fit=crop",
+                        ingredients: "Agua mineral natural o bebidas carbonatadas con saborizantes naturales",
+                        allergens: [],
+                        nutrition: {
+                            calories: "0-140",
+                            proteins: "0g",
+                            carbs: "0-35g",
+                            fats: "0g",
+                            fiber: "0g"
+                        }
+                    },
+                    {
+                        name: "Café y Infusiones",
+                        price: "€2.00",
+                        description: "Café expreso, cortado, con leche o americano. Infusiones variadas: manzanilla, poleo menta, té verde.",
+                        image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
+                        ingredients: "Café arábica 100%, leche (opcional), hierbas naturales para infusiones",
+                        allergens: ["dairy"],
+                        nutrition: {
+                            calories: "5-80",
+                            proteins: "0-4g",
+                            carbs: "1-6g",
+                            fats: "0-4g",
+                            fiber: "0g"
+                        }
+                    }
+                ]
+            }
+        };
+
+        // Application state
+        let currentAllergenFilter = 'all';
+        let currentCategoryFilter = 'all';
+
+        // Generate menu HTML
+        function generateMenuHTML() {
+            const menuContainer = document.getElementById('menu-container');
+            menuContainer.innerHTML = '';
+
+            Object.keys(menuData).forEach(categoryKey => {
+                const category = menuData[categoryKey];
+                
+                const section = document.createElement('section');
+                section.className = 'menu-section';
+                section.dataset.category = categoryKey;
+                
+                section.innerHTML = `
+                    <h2 class="section-title">${category.title}</h2>
+                    <div class="menu-grid">
+                        ${category.items.map((item, index) => createMenuItemHTML(item, categoryKey, index)).join('')}
+                    </div>
+                `;
+                
+                menuContainer.appendChild(section);
+            });
+        }
+
+        function createMenuItemHTML(item, category, index) {
+            const allergensHTML = item.allergens.map(allergen => 
+                `<span class="allergen-tag ${allergen}">${getAllergenName(allergen)}</span>`
+            ).join('');
+
+            const nutritionHTML = Object.entries(item.nutrition).map(([key, value]) => 
+                `<div class="nutrition-item">
+                    <div class="nutrition-value">${value}</div>
+                    <div class="nutrition-label">${getNutritionLabel(key)}</div>
+                </div>`
+            ).join('');
+
+            return `
+                <div class="menu-item" data-category="${category}" data-allergens="${item.allergens.join(',')}" data-index="${index}">
+                    <img src="${item.image}" alt="${item.name}" class="menu-item-image" loading="lazy">
+                    <div class="menu-item-content">
+                        <div class="item-header">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">${item.price}</div>
+                        </div>
+                        <div class="item-description">${item.description}</div>
+                        ${allergensHTML ? `<div class="allergen-tags">${allergensHTML}</div>` : ''}
+                        <button class="expand-button">
+                            <i class="fas fa-chevron-down"></i>
+                            Ver detalles nutricionales
+                        </button>
+                        <div class="item-details">
+                            <div class="ingredients-section">
+                                <div class="section-subtitle">
+                                    <i class="fas fa-list-ul"></i> Ingredientes
+                                </div>
+                                <div class="ingredients-list">${item.ingredients}</div>
+                            </div>
+                            <div class="nutrition-section">
+                                <div class="section-subtitle">
+                                    <i class="fas fa-chart-bar"></i> Información Nutricional (por ración)
+                                </div>
+                                <div class="nutrition-grid">${nutritionHTML}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getAllergenName(allergen) {
+            const names = {
+                'gluten': 'Gluten',
+                'dairy': 'Lácteos', 
+                'nuts': 'Frutos Secos',
+                'seafood': 'Mariscos'
+            };
+            return names[allergen] || allergen;
+        }
+
+        function getNutritionLabel(key) {
+            const labels = {
+                'calories': 'Calorías',
+                'proteins': 'Proteínas',
+                'carbs': 'Carbohidratos',
+                'fats': 'Grasas',
+                'fiber': 'Fibra'
+            };
+            return labels[key] || key;
+        }
+
+        // Filter functionality
+        function filterMenu() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            const sections = document.querySelectorAll('.menu-section');
+
+            menuItems.forEach(item => {
+                const itemCategory = item.dataset.category;
+                const itemAllergens = item.dataset.allergens.split(',').filter(a => a);
+                
+                let showItem = true;
+
+                // Category filter
+                if (currentCategoryFilter !== 'all' && itemCategory !== currentCategoryFilter) {
+                    showItem = false;
+                }
+
+                // Allergen filter (show items that DON'T contain the allergen)
+                if (currentAllergenFilter !== 'all' && itemAllergens.includes(currentAllergenFilter)) {
+                    showItem = false;
+                }
+
+                if (showItem) {
+                    item.classList.remove('hidden');
+                    item.classList.add('fade-in');
+                } else {
+                    item.classList.add('hidden');
+                    item.classList.remove('fade-in');
+                }
+            });
+
+            // Hide empty sections
+            sections.forEach(section => {
+                const visibleItems = section.querySelectorAll('.menu-item:not(.hidden)');
+                if (visibleItems.length === 0) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = 'block';
+                }
+            });
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            // Allergen filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentAllergenFilter = btn.dataset.allergen;
+                    filterMenu();
+                });
+            });
+
+            // Category filter buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategoryFilter = btn.dataset.category;
+                    filterMenu();
+                });
+            });
+
+            // Expand/collapse menu items
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.expand-button')) {
+                    const menuItem = e.target.closest('.menu-item');
+                    menuItem.classList.toggle('expanded');
+                    
+                    const button = menuItem.querySelector('.expand-button');
+                    const text = menuItem.classList.contains('expanded') 
+                        ? 'Ocultar detalles' 
+                        : 'Ver detalles nutricionales';
+                    button.innerHTML = `<i class="fas fa-chevron-down"></i> ${text}`;
+                }
+            });
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            generateMenuHTML();
+            setupEventListeners();
+            
+            // Set initial active state
+            document.querySelector('.filter-btn[data-allergen="all"]').classList.add('active');
+        });
+    </script>
 </body>
 </html>
