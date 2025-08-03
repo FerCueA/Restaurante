@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante - Menú Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin: -20px -20px 40px -20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .menu-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: #764ba2;
+        }
+
+        .menu-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .menu-item {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .item-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+            flex: 1;
+        }
+
+        .item-price {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-left: 15px;
+        }
+
+        .item-description {
+            color: #666;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px 0;
+            background: #f8f9fa;
+            border-radius: 10px;
+            color: #666;
+        }
+
+        .footer h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            margin: 10px 0;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .header {
+                margin: -15px -15px 30px -15px;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .section-title {
+                font-size: 1.6em;
+                margin-bottom: 20px;
+            }
+
+            .menu-item {
+                padding: 20px;
+            }
+
+            .item-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-price {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+
+            .item-name {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .section-title {
+                font-size: 1.4em;
+            }
+
+            .menu-item {
+                padding: 15px;
+            }
+        }
+
+        /* Print styles for potential QR code printing */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🍽️ Restaurante Delizioso</h1>
+            <p>Menú Digital - Cocina Tradicional & Moderna</p>
+        </header>
+
+        <section class="menu-section">
+            <h2 class="section-title">🥗 Entrantes</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Bruschetta Italiana</div>
+                        <div class="item-price">€8.50</div>
+                    </div>
+                    <div class="item-description">
+                        Pan tostado con tomate fresco, albahaca, ajo y aceite de oliva virgen extra. Servido con queso mozzarella de búfala.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Croquetas de Jamón Ibérico</div>
+                        <div class="item-price">€9.00</div>
+                    </div>
+                    <div class="item-description">
+                        Croquetas caseras elaboradas con jamón ibérico de bellota y bechamel cremosa. Servidas con alioli casero.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Tabla de Quesos Artesanales</div>
+                        <div class="item-price">€12.00</div>
+                    </div>
+                    <div class="item-description">
+                        Selección de quesos locales acompañados con frutos secos, mermelada de higos y pan artesanal.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Gambas al Ajillo</div>
+                        <div class="item-price">€11.50</div>
+                    </div>
+                    <div class="item-description">
+                        Gambas frescas salteadas con ajo, guindilla y perejil en aceite de oliva. Servidas en cazuela de barro.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="section-title">🍖 Platos Principales</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Paella Valenciana</div>
+                        <div class="item-price">€18.00</div>
+                    </div>
+                    <div class="item-description">
+                        Paella tradicional con pollo, conejo, judías verdes, garrofón y azafrán. Cocinada en fuego de leña. Mínimo 2 personas.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Solomillo de Ternera</div>
+                        <div class="item-price">€24.00</div>
+                    </div>
+                    <div class="item-description">
+                        Solomillo a la plancha con salsa de vino tinto, acompañado de patatas confitadas y verduras de temporada.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Lubina a la Sal</div>
+                        <div class="item-price">€22.00</div>
+                    </div>
+                    <div class="item-description">
+                        Lubina fresca cocinada en costra de sal marina, servida con verduras al vapor y salsa verde casera.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Risotto de Setas</div>
+                        <div class="item-price">€16.50</div>
+                    </div>
+                    <div class="item-description">
+                        Risotto cremoso con setas de temporada, parmesano DOP y trufa negra. Opción vegetariana disponible.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Cordero Lechal Asado</div>
+                        <div class="item-price">€26.00</div>
+                    </div>
+                    <div class="item-description">
+                        Cordero lechal asado al horno tradicional con romero y ajo, acompañado de patatas panadera y ensalada.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="section-title">🍰 Postres</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Tiramisú Casero</div>
+                        <div class="item-price">€6.50</div>
+                    </div>
+                    <div class="item-description">
+                        Tiramisú tradicional italiano con café expreso, mascarpone y cacao en polvo. Elaborado diariamente en casa.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Tarta de Chocolate Negro</div>
+                        <div class="item-price">€7.00</div>
+                    </div>
+                    <div class="item-description">
+                        Tarta húmeda de chocolate 70% cacao con crema inglesa y frutos rojos frescos de temporada.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Flan de Huevo</div>
+                        <div class="item-price">€5.50</div>
+                    </div>
+                    <div class="item-description">
+                        Flan casero elaborado con huevos frescos y caramelo líquido, servido con nata montada y canela.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Helado Artesanal</div>
+                        <div class="item-price">€4.50</div>
+                    </div>
+                    <div class="item-description">
+                        Selección de helados artesanales: vainilla, chocolate, fresa o limón. Servido con barquillo casero.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <h2 class="section-title">🥤 Bebidas</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Vino Tinto Reserva</div>
+                        <div class="item-price">€18.00</div>
+                    </div>
+                    <div class="item-description">
+                        Botella de vino tinto Tempranillo D.O. Ribera del Duero, crianza de 12 meses en barrica de roble.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Vino Blanco Albariño</div>
+                        <div class="item-price">€16.00</div>
+                    </div>
+                    <div class="item-description">
+                        Botella de vino blanco D.O. Rías Baixas, fresco y afrutado, ideal para acompañar pescados y mariscos.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Sangría de la Casa</div>
+                        <div class="item-price">€12.00</div>
+                    </div>
+                    <div class="item-description">
+                        Sangría tradicional con vino tinto, frutas frescas y especias secretas de la casa. Jarra para 2 personas.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Agua Mineral / Refrescos</div>
+                        <div class="item-price">€2.50</div>
+                    </div>
+                    <div class="item-description">
+                        Agua mineral natural con o sin gas. Refrescos variados: Coca-Cola, Fanta, Sprite, zumos naturales.
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Café y Infusiones</div>
+                        <div class="item-price">€2.00</div>
+                    </div>
+                    <div class="item-description">
+                        Café expreso, cortado, con leche o americano. Infusiones variadas: manzanilla, poleo menta, té verde.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <h3>📍 Información del Restaurante</h3>
+            <div class="contact-info">
+                <p>📧 info@restaurantedelizioso.com</p>
+                <p>📞 +34 912 345 678</p>
+                <p>🏠 Calle Mayor 123, 28001 Madrid</p>
+                <p>🕒 Lun-Dom: 13:00-16:00 | 20:00-24:00</p>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                <em>Los precios incluyen IVA. Informamos que disponemos de alérgenos. Consulte con nuestro personal.</em>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
