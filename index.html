@@ -790,7 +790,7 @@
                 </div>
             </div>
 
-            <div class="apply-filters">
+            <div class="apply-filters" style="display: none;">
                 <button class="apply-btn" id="applyFilters">
                     <i class="fas fa-check"></i> Aplicar Filtros
                 </button>
@@ -1296,6 +1296,15 @@
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     selectedAllergenFilter = btn.dataset.allergen;
+                    
+                    // Apply filters immediately
+                    currentAllergenFilter = selectedAllergenFilter;
+                    currentCategoryFilter = selectedCategoryFilter;
+                    filterMenu();
+                    
+                    // Close the menu after applying filters for better mobile UX
+                    filterControls.classList.remove('open');
+                    menuOverlay.classList.remove('active');
                 });
             });
 
@@ -1305,18 +1314,16 @@
                     document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     selectedCategoryFilter = btn.dataset.category;
+                    
+                    // Apply filters immediately
+                    currentAllergenFilter = selectedAllergenFilter;
+                    currentCategoryFilter = selectedCategoryFilter;
+                    filterMenu();
+                    
+                    // Close the menu after applying filters for better mobile UX
+                    filterControls.classList.remove('open');
+                    menuOverlay.classList.remove('active');
                 });
-            });
-
-            // Apply filters button
-            document.getElementById('applyFilters').addEventListener('click', () => {
-                currentAllergenFilter = selectedAllergenFilter;
-                currentCategoryFilter = selectedCategoryFilter;
-                filterMenu();
-                
-                // Close the menu after applying filters
-                filterControls.classList.remove('open');
-                menuOverlay.classList.remove('active');
             });
 
             // Expand/collapse menu items
