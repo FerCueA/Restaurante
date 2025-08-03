@@ -1297,42 +1297,14 @@
             const currentAllergen = window.currentAllergenFilter || 'all';
             const currentCategory = window.currentCategoryFilter || 'all';
             
-            const menuItems = document.querySelectorAll('.menu-item');
             const sections = document.querySelectorAll('.menu-section');
             let visibleItemsCount = 0;
 
             // Debug logging for troubleshooting
             console.log(`Filtering with allergen: ${currentAllergen}, category: ${currentCategory}`);
 
-            menuItems.forEach(item => {
-                const itemCategory = item.dataset.category;
-                const itemAllergens = item.dataset.allergens ? item.dataset.allergens.split(',').filter(a => a.trim()) : [];
-                
-                let showItem = true;
-
-                // Category filter
-                if (currentCategory !== 'all' && itemCategory !== currentCategory) {
-                    showItem = false;
-                }
-
-                // Allergen filter (show items that DON'T contain the allergen)
-                if (currentAllergen !== 'all' && itemAllergens.includes(currentAllergen)) {
-                    showItem = false;
-                }
-
-                if (showItem) {
-                    item.classList.remove('hidden');
-                    item.classList.add('fade-in');
-                    visibleItemsCount++;
-                } else {
-                    item.classList.add('hidden');
-                    item.classList.remove('fade-in');
-                }
-            });
-
             // Hide empty sections and add empty messages
             sections.forEach(section => {
-                const visibleItems = section.querySelectorAll('.menu-item:not(.hidden)');
                 const menuGrid = section.querySelector('.menu-grid');
                 
                 // Remove existing empty message
@@ -1341,7 +1313,44 @@
                     existingMessage.remove();
                 }
                 
-                if (visibleItems.length === 0) {
+                // Check if section was showing empty message and needs regeneration
+                if (menuGrid.querySelector('.empty-section-message')) {
+                    regenerateSection(section, menuData[section.dataset.category]);
+                }
+                
+                // Now get all menu items (including any newly regenerated ones)
+                const menuItems = section.querySelectorAll('.menu-item');
+                let sectionVisibleCount = 0;
+
+                menuItems.forEach(item => {
+                    const itemCategory = item.dataset.category;
+                    const itemAllergens = item.dataset.allergens ? item.dataset.allergens.split(',').filter(a => a.trim()) : [];
+                    
+                    let showItem = true;
+
+                    // Category filter
+                    if (currentCategory !== 'all' && itemCategory !== currentCategory) {
+                        showItem = false;
+                    }
+
+                    // Allergen filter (show items that DON'T contain the allergen)
+                    if (currentAllergen !== 'all' && itemAllergens.includes(currentAllergen)) {
+                        showItem = false;
+                    }
+
+                    if (showItem) {
+                        item.classList.remove('hidden');
+                        item.classList.add('fade-in');
+                        visibleItemsCount++;
+                        sectionVisibleCount++;
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('fade-in');
+                    }
+                });
+                
+                // If no items are visible in this section, show empty message
+                if (sectionVisibleCount === 0) {
                     section.style.display = 'block'; // Keep section visible
                     // Add empty message
                     const emptyMessage = document.createElement('div');
@@ -1354,10 +1363,6 @@
                     menuGrid.appendChild(emptyMessage);
                 } else {
                     section.style.display = 'block';
-                    // Remove empty message and restore items if it was added
-                    if (menuGrid.querySelector('.empty-section-message')) {
-                        regenerateSection(section, menuData[section.dataset.category]);
-                    }
                 }
             });
 
