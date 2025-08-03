@@ -1190,11 +1190,17 @@
             }
         };
 
-        // Application state
-        let currentAllergenFilter = 'all';
-        let currentCategoryFilter = 'all';
-        let selectedAllergenFilter = 'all';
-        let selectedCategoryFilter = 'all';
+        // Application state - using window object to ensure global access
+        window.currentAllergenFilter = 'all';
+        window.currentCategoryFilter = 'all';
+        window.selectedAllergenFilter = 'all';
+        window.selectedCategoryFilter = 'all';
+        
+        // Expose variables for easier access
+        let currentAllergenFilter = window.currentAllergenFilter;
+        let currentCategoryFilter = window.currentCategoryFilter;
+        let selectedAllergenFilter = window.selectedAllergenFilter;
+        let selectedCategoryFilter = window.selectedCategoryFilter;
 
         // Generate menu HTML
         function generateMenuHTML() {
@@ -1287,23 +1293,30 @@
 
         // Filter functionality
         function filterMenu() {
+            // Use window object to ensure we have the current values
+            const currentAllergen = window.currentAllergenFilter || 'all';
+            const currentCategory = window.currentCategoryFilter || 'all';
+            
             const menuItems = document.querySelectorAll('.menu-item');
             const sections = document.querySelectorAll('.menu-section');
             let visibleItemsCount = 0;
 
+            // Debug logging for troubleshooting
+            console.log(`Filtering with allergen: ${currentAllergen}, category: ${currentCategory}`);
+
             menuItems.forEach(item => {
                 const itemCategory = item.dataset.category;
-                const itemAllergens = item.dataset.allergens.split(',').filter(a => a);
+                const itemAllergens = item.dataset.allergens ? item.dataset.allergens.split(',').filter(a => a.trim()) : [];
                 
                 let showItem = true;
 
                 // Category filter
-                if (currentCategoryFilter !== 'all' && itemCategory !== currentCategoryFilter) {
+                if (currentCategory !== 'all' && itemCategory !== currentCategory) {
                     showItem = false;
                 }
 
                 // Allergen filter (show items that DON'T contain the allergen)
-                if (currentAllergenFilter !== 'all' && itemAllergens.includes(currentAllergenFilter)) {
+                if (currentAllergen !== 'all' && itemAllergens.includes(currentAllergen)) {
                     showItem = false;
                 }
 
@@ -1364,21 +1377,25 @@
             const filterStatusText = document.getElementById('filter-status-text');
             const filterStatusCount = document.getElementById('filter-status-count');
             
+            // Use window object to get current filter state
+            const currentAllergen = window.currentAllergenFilter || 'all';
+            const currentCategory = window.currentCategoryFilter || 'all';
+            
             let statusText = 'Mostrando todos los platos';
             let isFiltered = false;
             
-            if (currentAllergenFilter !== 'all' || currentCategoryFilter !== 'all') {
+            if (currentAllergen !== 'all' || currentCategory !== 'all') {
                 isFiltered = true;
                 
-                if (currentAllergenFilter !== 'all' && currentCategoryFilter !== 'all') {
-                    const allergenName = getAllergenDisplayName(currentAllergenFilter);
-                    const categoryName = getCategoryDisplayName(currentCategoryFilter);
+                if (currentAllergen !== 'all' && currentCategory !== 'all') {
+                    const allergenName = getAllergenDisplayName(currentAllergen);
+                    const categoryName = getCategoryDisplayName(currentCategory);
                     statusText = `Mostrando ${categoryName.toLowerCase()} ${allergenName.toLowerCase()}`;
-                } else if (currentAllergenFilter !== 'all') {
-                    const allergenName = getAllergenDisplayName(currentAllergenFilter);
+                } else if (currentAllergen !== 'all') {
+                    const allergenName = getAllergenDisplayName(currentAllergen);
                     statusText = `Mostrando platos ${allergenName.toLowerCase()}`;
-                } else if (currentCategoryFilter !== 'all') {
-                    const categoryName = getCategoryDisplayName(currentCategoryFilter);
+                } else if (currentCategory !== 'all') {
+                    const categoryName = getCategoryDisplayName(currentCategory);
                     statusText = `Mostrando ${categoryName.toLowerCase()}`;
                 }
             }
@@ -1390,6 +1407,12 @@
                 filterStatus.style.display = 'block';
             } else {
                 filterStatus.style.display = 'none';
+            }
+            
+            // Show a helpful message if no items are visible
+            if (isFiltered && visibleCount === 0) {
+                filterStatusText.textContent = 'No se encontraron platos con los filtros seleccionados';
+                filterStatusCount.textContent = 'Intenta cambiar los filtros';
             }
         }
 
@@ -1443,11 +1466,17 @@
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
+                    
+                    // Update both window object and local variables
+                    window.selectedAllergenFilter = btn.dataset.allergen;
                     selectedAllergenFilter = btn.dataset.allergen;
                     
                     // Apply filters immediately
-                    currentAllergenFilter = selectedAllergenFilter;
-                    currentCategoryFilter = selectedCategoryFilter;
+                    window.currentAllergenFilter = window.selectedAllergenFilter;
+                    window.currentCategoryFilter = window.selectedCategoryFilter;
+                    currentAllergenFilter = window.currentAllergenFilter;
+                    currentCategoryFilter = window.currentCategoryFilter;
+                    
                     filterMenu();
                     
                     // Close the menu after applying filters for better mobile UX
@@ -1461,11 +1490,17 @@
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
+                    
+                    // Update both window object and local variables
+                    window.selectedCategoryFilter = btn.dataset.category;
                     selectedCategoryFilter = btn.dataset.category;
                     
                     // Apply filters immediately
-                    currentAllergenFilter = selectedAllergenFilter;
-                    currentCategoryFilter = selectedCategoryFilter;
+                    window.currentAllergenFilter = window.selectedAllergenFilter;
+                    window.currentCategoryFilter = window.selectedCategoryFilter;
+                    currentAllergenFilter = window.currentAllergenFilter;
+                    currentCategoryFilter = window.currentCategoryFilter;
+                    
                     filterMenu();
                     
                     // Close the menu after applying filters for better mobile UX
