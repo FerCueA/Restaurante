@@ -15,8 +15,8 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #2c3e50;
-            background: #f8f9fa;
+            color: #333;
+            background: white;
             min-height: 100vh;
         }
 
@@ -26,29 +26,28 @@
             padding: 20px;
             background: white;
             min-height: 100vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.05);
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
             padding: 40px 0;
-            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
-            color: white;
-            border-radius: 20px;
-            margin: -20px -20px 40px -20px;
+            background: white;
+            color: #333;
+            border-bottom: 1px solid #eee;
         }
 
         .header h1 {
             font-size: 2.8em;
             margin-bottom: 15px;
             font-weight: 300;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            color: #333;
         }
 
         .header p {
             font-size: 1.1em;
-            opacity: 0.9;
+            color: #666;
             font-weight: 300;
         }
 
@@ -56,17 +55,16 @@
         .filter-controls {
             background: white;
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            border: 1px solid #eee;
             margin-bottom: 30px;
-            border: 1px solid #e9ecef;
         }
 
         .filter-title {
-            font-size: 1.2em;
+            font-size: 1.1em;
             margin-bottom: 15px;
-            color: #2c3e50;
-            font-weight: 600;
+            color: #333;
+            font-weight: 500;
         }
 
         .filter-buttons {
@@ -78,23 +76,23 @@
 
         .filter-btn, .category-btn {
             padding: 8px 16px;
-            border: 2px solid #e9ecef;
+            border: 1px solid #ddd;
             background: white;
-            border-radius: 25px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9em;
-            color: #6c757d;
+            color: #666;
         }
 
         .filter-btn:hover, .category-btn:hover {
-            border-color: #3498db;
-            color: #3498db;
+            border-color: #333;
+            color: #333;
         }
 
         .filter-btn.active, .category-btn.active {
-            background: #3498db;
-            border-color: #3498db;
+            background: #333;
+            border-color: #333;
             color: white;
         }
 
@@ -103,7 +101,7 @@
         }
 
         .category-filters {
-            border-top: 1px solid #e9ecef;
+            border-top: 1px solid #eee;
             padding-top: 15px;
         }
 
@@ -112,25 +110,13 @@
         }
 
         .section-title {
-            font-size: 2.2em;
-            color: #2c3e50;
+            font-size: 2.0em;
+            color: #333;
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #3498db;
-            position: relative;
+            border-bottom: 1px solid #eee;
             font-weight: 300;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 2px;
-            background: #e74c3c;
         }
 
         .menu-grid {
@@ -141,24 +127,23 @@
 
         .menu-item {
             background: white;
-            border-radius: 15px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
             transition: all 0.3s ease;
-            border: 1px solid #e9ecef;
             cursor: pointer;
         }
 
         .menu-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .menu-item-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: 1px solid #eee;
         }
 
         .menu-item-content {
@@ -173,22 +158,22 @@
         }
 
         .item-name {
-            font-size: 1.4em;
-            font-weight: 600;
-            color: #2c3e50;
+            font-size: 1.3em;
+            font-weight: 500;
+            color: #333;
             flex: 1;
             margin-right: 15px;
         }
 
         .item-price {
-            font-size: 1.4em;
-            font-weight: 700;
-            color: #e74c3c;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
             white-space: nowrap;
         }
 
         .item-description {
-            color: #6c757d;
+            color: #666;
             line-height: 1.6;
             margin-bottom: 15px;
         }
@@ -218,7 +203,7 @@
         .expand-button {
             background: none;
             border: none;
-            color: #3498db;
+            color: #666;
             font-size: 0.9em;
             cursor: pointer;
             display: flex;
@@ -229,7 +214,7 @@
         }
 
         .expand-button:hover {
-            color: #2c3e50;
+            color: #333;
         }
 
         .expand-button i {
@@ -244,7 +229,7 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            border-top: 1px solid #e9ecef;
+            border-top: 1px solid #eee;
             margin-top: 15px;
         }
 
@@ -258,14 +243,14 @@
         }
 
         .section-subtitle {
-            font-weight: 600;
-            color: #2c3e50;
+            font-weight: 500;
+            color: #333;
             margin-bottom: 10px;
             font-size: 1em;
         }
 
         .ingredients-list {
-            color: #6c757d;
+            color: #666;
             line-height: 1.5;
         }
 
@@ -278,41 +263,31 @@
         .nutrition-item {
             text-align: center;
             padding: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid #eee;
         }
 
         .nutrition-value {
-            font-weight: 600;
-            color: #2c3e50;
+            font-weight: 500;
+            color: #333;
             font-size: 1.1em;
         }
 
         .nutrition-label {
             font-size: 0.8em;
-            color: #6c757d;
+            color: #666;
             margin-top: 2px;
         }
 
         .footer {
             text-align: center;
             margin-top: 50px;
-            padding: 40px 0;
-            background: #2c3e50;
-            border-radius: 15px;
-            color: white;
-        }
-
-        .footer h3 {
-            color: white;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-
-        .contact-info {
-            margin: 15px 0;
-            color: #bdc3c7;
+            padding: 30px 0;
+            background: white;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
         }
 
         /* Mobile responsiveness */
@@ -429,8 +404,8 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>🍽️ Restaurante Delizioso</h1>
-            <p>Menú Digital - Cocina Tradicional & Moderna</p>
+            <h1>Restaurante Delizioso</h1>
+            <p>Menú Digital</p>
         </header>
 
         <!-- Filter Controls -->
@@ -487,16 +462,7 @@
         </div>
 
         <footer class="footer">
-            <h3>📍 Información del Restaurante</h3>
-            <div class="contact-info">
-                <p>📧 info@restaurantedelizioso.com</p>
-                <p>📞 +34 912 345 678</p>
-                <p>🏠 Calle Mayor 123, 28001 Madrid</p>
-                <p>🕒 Lun-Dom: 13:00-16:00 | 20:00-24:00</p>
-            </div>
-            <p style="margin-top: 20px; font-size: 0.9em;">
-                <em>Los precios incluyen IVA. Informamos que disponemos de alérgenos. Consulte con nuestro personal.</em>
-            </p>
+            <p>© 2025 - Designed by Aleixo Fdez Cuevas · aleixofdezcuevas.es</p>
         </footer>
     </div>
 
@@ -504,7 +470,7 @@
         // Menu data with complete information
         const menuData = {
             starters: {
-                title: "🥗 Entrantes",
+                title: "Entrantes",
                 items: [
                     {
                         name: "Bruschetta Italiana",
@@ -569,7 +535,7 @@
                 ]
             },
             mains: {
-                title: "🍖 Platos Principales",
+                title: "Platos Principales",
                 items: [
                     {
                         name: "Paella Valenciana",
@@ -649,7 +615,7 @@
                 ]
             },
             desserts: {
-                title: "🍰 Postres",
+                title: "Postres",
                 items: [
                     {
                         name: "Tiramisú Casero",
@@ -714,7 +680,7 @@
                 ]
             },
             drinks: {
-                title: "🥤 Bebidas",
+                title: "Bebidas",
                 items: [
                     {
                         name: "Vino Tinto Reserva",
