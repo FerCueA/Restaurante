@@ -706,18 +706,15 @@
             }
         }
 
-        /* Hidden items animation */
+        /* Hidden items */
         .menu-item.hidden {
-            display: none;
+            display: none !important;
         }
 
-        .menu-item.fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Ensure all menu items are visible by default */
+        .menu-item {
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         /* Filter status */
@@ -1318,15 +1315,9 @@
             // Debug logging for troubleshooting
             console.log(`Filtering with allergen: ${currentAllergen}, category: ${currentCategory}`);
 
-            // Hide empty sections and add empty messages
+            // Process each section for filtering
             sections.forEach(section => {
                 const menuGrid = section.querySelector('.menu-grid');
-                
-                // Remove existing empty message
-                const existingMessage = section.querySelector('.empty-section-message');
-                if (existingMessage) {
-                    existingMessage.remove();
-                }
                 
                 // Check if section was showing empty message and needs regeneration
                 if (menuGrid.querySelector('.empty-section-message')) {
@@ -1355,29 +1346,33 @@
 
                     if (showItem) {
                         item.classList.remove('hidden');
-                        item.classList.add('fade-in');
                         visibleItemsCount++;
                         sectionVisibleCount++;
                     } else {
                         item.classList.add('hidden');
-                        item.classList.remove('fade-in');
                     }
                 });
                 
                 // If no items are visible in this section, show empty message
                 if (sectionVisibleCount === 0) {
                     section.style.display = 'block'; // Keep section visible
-                    // Add empty message
-                    const emptyMessage = document.createElement('div');
-                    emptyMessage.className = 'empty-section-message';
-                    emptyMessage.innerHTML = `
-                        <i class="fas fa-search"></i>
-                        No hay platos disponibles con los filtros seleccionados
-                    `;
-                    menuGrid.innerHTML = '';
-                    menuGrid.appendChild(emptyMessage);
+                    // Only add empty message if one doesn't already exist
+                    if (!menuGrid.querySelector('.empty-section-message')) {
+                        const emptyMessage = document.createElement('div');
+                        emptyMessage.className = 'empty-section-message';
+                        emptyMessage.innerHTML = `
+                            <i class="fas fa-search"></i>
+                            No hay platos disponibles con los filtros seleccionados
+                        `;
+                        menuGrid.appendChild(emptyMessage);
+                    }
                 } else {
                     section.style.display = 'block';
+                    // Remove empty message if section has visible items
+                    const emptyMessage = menuGrid.querySelector('.empty-section-message');
+                    if (emptyMessage) {
+                        emptyMessage.remove();
+                    }
                 }
             });
 
